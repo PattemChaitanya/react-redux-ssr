@@ -2,6 +2,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 let mode = "development";
 let target = "web";
@@ -15,7 +16,7 @@ module.exports = {
   mode: mode,
   target: target,
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "build"),
     assetModuleFilename: "images/[hash][ext][query]",
   },
   module: {
@@ -57,15 +58,43 @@ module.exports = {
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
+      // publicPath: process.env.PUBLIC_URL || "/",
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: "public/manifest.json", to: "manifest.json" },
+        { from: "public/favicon.ico", to: "favicon.ico" },
+        { from: "public/logo192.png", to: "logo192.png" },
+        { from: "public/logo512.png", to: "logo512.png" },
+        { from: "public/robots.txt", to: "robots.txt" },
+      ],
     }),
   ],
   resolve: {
     extensions: [".js", ".jsx"],
+    fallback: {
+      path: require.resolve("path-browserify"),
+      fs: require.resolve("browserify-fs"),
+      stream: require.resolve("stream-browserify"),
+      util: require.resolve("util"),
+      buffer: require.resolve("buffer"),
+      crypto: require.resolve("crypto-browserify"),
+      os: require.resolve("os-browserify"),
+      url: require.resolve("url"),
+      http: require.resolve("stream-http"),
+      https: require.resolve("https-browserify"),
+      zlib: require.resolve("browserify-zlib"),
+      querystring: require.resolve("querystring-es3"),
+      assert: require.resolve("assert"),
+      vm: require.resolve("vm-browserify"),
+    },
   },
   devtool: "source-map",
   devServer: {
-    // contentBase: path.join(__dirname, "dist"),
+    contentBase: path.join(__dirname, "dist"),
     allowedHosts: "all",
     hot: true,
+    compress: true,
+    port: 9000,
   },
 };
