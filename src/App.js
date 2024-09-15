@@ -1,8 +1,11 @@
 import logo from "./logo.svg";
 import React from "react";
 import "./App.css";
+import { useSelector } from "react-redux";
 
 function App() {
+  const data = useSelector((state) => state.data);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +21,7 @@ function App() {
         >
           Learn React
         </a>
+        <p>{data.data}</p>
       </header>
     </div>
   );

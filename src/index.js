@@ -6,12 +6,17 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 
+const preloadedState = window.__PRELOADED_STATE__;
+delete window.__PRELOADED_STATE__;
+
 const createRender = ReactDOM.createRoot(document.getElementById("root"));
 const hydrateRender = ReactDOM.hydrateRoot(document.getElementById("root"));
 const rootElement = document.getElementById("root");
+const reduxStore = store(preloadedState);
+
 if (rootElement.hasChildNodes()) {
   createRender.render(
-    <Provider store={store}>
+    <Provider store={reduxStore}>
       <React.StrictMode>
         <App />
       </React.StrictMode>
