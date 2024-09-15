@@ -3,21 +3,27 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const createRender = ReactDOM.createRoot(document.getElementById("root"));
 const hydrateRender = ReactDOM.hydrateRoot(document.getElementById("root"));
 const rootElement = document.getElementById("root");
 if (rootElement.hasChildNodes()) {
   createRender.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <Provider store={store}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Provider>
   );
 } else {
   hydrateRender.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <Provider store={store}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Provider>
   );
 }
 
